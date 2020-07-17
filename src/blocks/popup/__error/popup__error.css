@@ -1,0 +1,11 @@
+.popup__error {
+  position: absolute;
+  bottom: -1.125rem;
+  left: 0;
+  color: #ff0000;
+  font: 12px/15px 'Inter', Arial, sans-serif;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .15s linear 0s,
+          visibility .15s linear 0s;
+}
