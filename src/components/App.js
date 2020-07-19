@@ -22,34 +22,24 @@ class App extends React.Component {
       isEditProfilePopupOpen: false,
       isAddCardPopupOpen: false,
       isConfirmPopupOpen: false,
-      selectedCard: false
+      selectedCard: null
     }
   }
 
   handleEditAvatarClick() {
-    this.setState({
-      isEditAvatarPopupOpen: !this.state.isEditAvatarPopupOpen
-    });
+    this.setState({ isEditAvatarPopupOpen: true });
   }
   handleEditProfileClick() {
-    this.setState({
-      isEditProfilePopupOpen: !this.state.isEditProfilePopupOpen
-    });
+    this.setState({ isEditProfilePopupOpen: true });
   }
   handleAddCardClick() {
-    this.setState({
-      isAddCardPopupOpen: !this.state.isAddCardPopupOpen
-    });
+    this.setState({ isAddCardPopupOpen: true });
   }
   handleCardClick(card) {
-    this.setState({
-      selectedCard: card
-    })
+    this.setState({ selectedCard: card });
   }
   handleDeleteBtnClick() {
-    this.setState({
-      isConfirmPopupOpen: !this.state.isConfirmPopupOpen
-    })
+    this.setState({ isConfirmPopupOpen: true });
   }
   closeAllPopups() {
     this.setState({
@@ -57,7 +47,7 @@ class App extends React.Component {
       isEditProfilePopupOpen: false,
       isAddCardPopupOpen: false,
       isConfirmPopupOpen: false,
-      selectedCard: false
+      selectedCard: null
     });
   }
 
@@ -77,9 +67,7 @@ class App extends React.Component {
         <PopupWithForm
           name="avatar"
           title="Обновить аватар"
-          isOpen={(this.state.isEditAvatarPopupOpen)
-            ? "popup_opened"
-            : ""}
+          isOpen={this.state.isEditAvatarPopupOpen}
           onClose={this.closeAllPopups}
         >
           <label className="popup__label" htmlFor="av-input">
@@ -94,9 +82,7 @@ class App extends React.Component {
         <PopupWithForm
           name="profile"
           title="Редактировать профиль"
-          isOpen={(this.state.isEditProfilePopupOpen)
-            ? "popup_opened"
-            : ""}
+          isOpen={this.state.isEditProfilePopupOpen}
           onClose={this.closeAllPopups}
         >
           <label className="popup__label" htmlFor="name-input">
@@ -122,9 +108,7 @@ class App extends React.Component {
         <PopupWithForm
           name="card"
           title="Новое место"
-          isOpen={(this.state.isAddCardPopupOpen)
-            ? "popup_opened"
-            : ""}
+          isOpen={this.state.isAddCardPopupOpen}
           onClose={this.closeAllPopups}
         >
           <label className="popup__label" htmlFor="title-input">
@@ -148,9 +132,7 @@ class App extends React.Component {
         <PopupWithForm
           name="confirm"
           title="Вы уверены?"
-          isOpen={(this.state.isConfirmPopupOpen)
-            ? "popup_opened"
-            : ""}
+          isOpen={this.state.isConfirmPopupOpen}
           onClose={this.closeAllPopups}
         >
           <ButtonSubmit>Да</ButtonSubmit>
@@ -158,9 +140,7 @@ class App extends React.Component {
 
         <ImagePopup
           card={this.state.selectedCard}
-          isOpen={(this.state.selectedCard)
-            ? "popup_opened"
-            : ""}
+          isOpen={this.state.selectedCard}
           onClose={this.closeAllPopups}
         />
       </div>

@@ -1,77 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { api } from '../utils/api';
 import Card from './Card';
 
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userName: '',
-      userDescription: '',
-      userAvatar: '',
-      userId: '',
-      cards: []
-    };
-  }
+function Main(props) {
+  const [userName, setUserName] = useState('');
+  const [userDescription, setUserDescription] = useState('');
+  const [userAvatar, setUserAvatar] = useState('');
+  const [userId, setUserId] = useState('');
+  const [cards, setCards] = useState([]);
 
-  componentDidMount() {
+  useEffect(() => {
     Promise.all([api.getInitialUserInfo(), api.getInitialCards()])
     .then(([user, cards]) => {
-      this.setState({
-        userName: user.name,
-        userDescription: user.about,
-        userAvatar: user.avatar,
-        userId: user._id,
-        cards: cards
-      });
+      setUserName(user.name);
+      setUserDescription(user.about);
+      setUserAvatar(user.avatar);
+      setUserId(user._id);
+      setCards(cards);
     })
     .catch(err => console.error(err));
-  }
+  }, []);
 
-  render() {
-    return (
-      <main className="container page__section">
+  return (
+    <main className="container page__section">
       <section className="profile container__profile">
         <div className="profile__avatar">
-          <img src={this.state.userAvatar}
+          <img src={userAvatar}
+            alt={userName}
             className="profile__img"
-            alt={this.state.userName}
           />
           <button type="button"
             className="profile__update-av-btn"
             title="Сменить аватар"
-            onClick={this.props.onEditAvatar}>
+            onClick={props.onEditAvatar}>
           </button>
         </div>
         <div className="profile__details">
-          <h1 className="profile__name">{this.state.userName}</h1>
+          <h1 className="profile__name">{userName}</h1>
           <button type="button"
             className="profile__edit-btn"
             title="Редактировать профиль"
-            onClick={this.props.onEditProfile}>
+            onClick={props.onEditProfile}>
           </button>
-          <p className="profile__info">{this.state.userDescription}</p>
+          <p className="profile__info">{userDescription}</p>
         </div>
         <button type="button"
           className="profile__add-btn"
           title="Добавить фотографию"
-          onClick={this.props.onAddCard}>
+          onClick={props.onAddCard}>
         </button>
       </section>
       <section className="elements">
-        {this.state.cards.map(card => {
+        {cards.map(card => {
           return <Card
-            card={card}
             key={card._id}
-            userId={this.state.userId}
-            onCardClick={this.props.onCardClick}
-            onDeleteBtnClick={this.props.onDeleteBtnClick}
+            card={card}
+            userId={userId}
+            onCardClick={props.onCardClick}
+            onDeleteBtnClick={props.onDeleteBtnClick}
           />
         })}
       </section>
-      </main>
-    );
-  }
+    </main>
+  );
 }
 
 export default Main;
