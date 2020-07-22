@@ -17,7 +17,7 @@ $ npm install
 ```
 $ npm start
 ```
-Open [http://localhost:3000/mesto](http://localhost:3000/mesto) to view it in the browser.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## Credits
 Alena Batushkova - junior web developer
