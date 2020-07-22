@@ -9,7 +9,7 @@ This app is currently in development. Users can click on edit-avatar, edit-profi
 You will need node and npm installed globally on your machine.
 ```
 $ git clone https://github.com/abatushkova/mesto-react.git
-$ cd mesto
+$ cd mesto-react
 $ npm install
 ```
 
