@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Card(props) {
-  const card = props.card;
+  const {card} = props;
 
   const buttonDelete = (card.owner._id === props.userId)
     && <button type="button" 
