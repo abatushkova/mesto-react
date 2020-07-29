@@ -53,6 +53,15 @@ class Api  {
     });
   }
 
+  setUserAvatar(user) {
+    return this._fetch('/users/me/avatar', {
+      method: 'PATCH',
+      body: {
+        avatar: user.avatar
+      }
+    });
+  }
+
 }
 
 export const api = new Api({
