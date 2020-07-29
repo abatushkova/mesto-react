@@ -16,9 +16,23 @@ function Main(props) {
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     
-    api.changeLikeCardStatus(card._id, !isLiked)
+    api.changeCardLikeStatus(card._id, !isLiked)
     .then((newCard) => {
-      const newCards = cards.map(c => c._id === card._id ? newCard : c);
+      const newCards = cards.map((c) => (
+        c._id === card._id ? newCard : c
+      ));
+
+      setCards(newCards);
+    })
+    .catch(err => console.error(err));
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+    .then((newCard) => {
+      const newCards = cards.filter((c) => (
+        c._id === card._id ? null : newCard
+      ));
 
       setCards(newCards);
     })
@@ -63,7 +77,8 @@ function Main(props) {
             card={card}
             onCardLike={handleCardLike}
             onCardClick={props.onCardClick}
-            onCardDelete={props.onCardDelete}
+            // onCardDelete={props.onCardDelete}
+            onCardDelete={handleCardDelete}
           />
         })}
       </section>

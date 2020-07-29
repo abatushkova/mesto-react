@@ -31,14 +31,14 @@ class Api  {
     });
   }
 
-  changeLikeCardStatus(cardID, like) {
+  changeCardLikeStatus(cardID, like) {
     return this._fetch('/cards/likes/' + cardID, {
       method: like ? 'PUT' : 'DELETE'
     });
   }
 
-  deleteLike(cardID) {
-    return this._fetch('/cards/likes/' + cardID, {
+  deleteCard(cardID) {
+    return this._fetch('/cards/' + cardID, {
       method: 'DELETE'
     });
   }
