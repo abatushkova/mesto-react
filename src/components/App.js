@@ -1,74 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ButtonSubmit from './ButtonSubmit';
 import ImagePopup from './ImagePopup';
+import { api } from '../utils/api';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+function App() {
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddCardPopupOpen, setIsAddCardPopupOpen] = useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
-    this.handleEditAvatarClick = this.handleEditAvatarClick.bind(this);
-    this.handleEditProfileClick = this.handleEditProfileClick.bind(this);
-    this.handleAddCardClick = this.handleAddCardClick.bind(this);
-    this.handleCardClick = this.handleCardClick.bind(this);
-    this.handleDeleteBtnClick = this.handleDeleteBtnClick.bind(this);
-    this.closeAllPopups = this.closeAllPopups.bind(this);
+  useEffect(() => {
+    api.getUserInfo()
+    .then(user => setCurrentUser(user))
+    .catch(err => console.error(err));
+  }, []);
 
-    this.state = {
-      isEditAvatarPopupOpen: false,
-      isEditProfilePopupOpen: false,
-      isAddCardPopupOpen: false,
-      isConfirmPopupOpen: false,
-      selectedCard: null
-    }
-  }
-
-  handleEditAvatarClick() {
-    this.setState({ isEditAvatarPopupOpen: true });
-  }
-  handleEditProfileClick() {
-    this.setState({ isEditProfilePopupOpen: true });
-  }
-  handleAddCardClick() {
-    this.setState({ isAddCardPopupOpen: true });
-  }
-  handleCardClick(card) {
-    this.setState({ selectedCard: card });
-  }
-  handleDeleteBtnClick() {
-    this.setState({ isConfirmPopupOpen: true });
-  }
-  closeAllPopups() {
-    this.setState({
-      isEditAvatarPopupOpen: false,
-      isEditProfilePopupOpen: false,
-      isAddCardPopupOpen: false,
-      isConfirmPopupOpen: false,
-      selectedCard: null
-    });
+  const handleEditAvatarClick = () => {
+    setIsEditAvatarPopupOpen(true);
+  };
+  const handleEditProfileClick = () => {
+    setIsEditProfilePopupOpen(true);
+  };
+  const handleAddCardClick = () => {
+    setIsAddCardPopupOpen(true);
+  };
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+  };
+  const handleDeleteBtnClick = () => {
+    setIsConfirmPopupOpen(true);
+  };
+  const closeAllPopups = () => {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddCardPopupOpen(false);
+    setSelectedCard(null);
+    setIsConfirmPopupOpen(false);
   }
 
-  render() {
-    return (
+  return (
+    <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
         <Header />
         <Main
-          onEditAvatar={this.handleEditAvatarClick}
-          onEditProfile={this.handleEditProfileClick}
-          onAddCard={this.handleAddCardClick}
-          onCardClick={this.handleCardClick}
-          onDeleteBtnClick={this.handleDeleteBtnClick}
+          onEditAvatar={handleEditAvatarClick}
+          onEditProfile={handleEditProfileClick}
+          onAddCard={handleAddCardClick}
+          onCardClick={handleCardClick}
+          onDeleteBtnClick={handleDeleteBtnClick}
         />
         <Footer />
 
         <PopupWithForm
           name="avatar"
           title="Обновить аватар"
-          isOpen={this.state.isEditAvatarPopupOpen}
-          onClose={this.closeAllPopups}
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
         >
           <label className="popup__label" htmlFor="av-input">
             <input type="url" name="avatar" id="av-input"
@@ -82,8 +76,8 @@ class App extends React.Component {
         <PopupWithForm
           name="profile"
           title="Редактировать профиль"
-          isOpen={this.state.isEditProfilePopupOpen}
-          onClose={this.closeAllPopups}
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
         >
           <label className="popup__label" htmlFor="name-input">
             <input type="text" name="name" id="name-input"
@@ -108,8 +102,8 @@ class App extends React.Component {
         <PopupWithForm
           name="card"
           title="Новое место"
-          isOpen={this.state.isAddCardPopupOpen}
-          onClose={this.closeAllPopups}
+          isOpen={isAddCardPopupOpen}
+          onClose={closeAllPopups}
         >
           <label className="popup__label" htmlFor="title-input">
             <input type="text" name="title" id="title-input"
@@ -132,20 +126,20 @@ class App extends React.Component {
         <PopupWithForm
           name="confirm"
           title="Вы уверены?"
-          isOpen={this.state.isConfirmPopupOpen}
-          onClose={this.closeAllPopups}
+          isOpen={isConfirmPopupOpen}
+          onClose={closeAllPopups}
         >
           <ButtonSubmit>Да</ButtonSubmit>
         </PopupWithForm>
 
         <ImagePopup
-          card={this.state.selectedCard}
-          isOpen={this.state.selectedCard}
-          onClose={this.closeAllPopups}
+          card={selectedCard}
+          isOpen={selectedCard}
+          onClose={closeAllPopups}
         />
       </div>
-    );
-  }
+    </CurrentUserContext.Provider>
+  );
 }
 
 export default App;
