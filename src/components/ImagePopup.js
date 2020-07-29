@@ -4,7 +4,7 @@ import ButtonClose from './ButtonClose';
 function ImagePopup(props) {
   const {card} = props;
 
-  return ((props.isOpen !== null)
+  return ((props.isOpen)
     ? <div className="popup popup_type_img popup_opened">
         <div className="popup__img-wrapper">
           <img src={card.link}

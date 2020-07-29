@@ -39,8 +39,6 @@ function Main(props) {
     .catch(err => console.error(err));
   }
 
-  if (!currentUser) return null;
-
   return (
     <main className="container page__section">
       <section className="profile container__profile">
