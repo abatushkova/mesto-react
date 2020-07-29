@@ -3,6 +3,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import PopupWithForm from './PopupWithForm';
 import ButtonSubmit from './ButtonSubmit';
 import ImagePopup from './ImagePopup';
@@ -55,6 +56,15 @@ function App() {
     .catch(err => console.error(err));
   }
 
+  const handleUpdateAvatar = (user) => {
+    api.setUserAvatar(user)
+    .then(user => {
+      setCurrentUser(user);
+      closeAllPopups();
+    })
+    .catch(err => console.error(err));
+  }
+
   if (!currentUser) return null;
 
   return (
@@ -70,20 +80,11 @@ function App() {
         />
         <Footer />
 
-        <PopupWithForm
-          name="avatar"
-          title="Обновить аватар"
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-        >
-          <label className="popup__label" htmlFor="av-input">
-            <input type="url" name="avatar" id="av-input"
-              className="popup__input"
-              placeholder="Ссылка" required />
-            <span className="popup__error" id="av-input-error"></span>
-          </label>
-          <ButtonSubmit>Сохранить</ButtonSubmit>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
