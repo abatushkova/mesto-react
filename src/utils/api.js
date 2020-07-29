@@ -19,7 +19,7 @@ class Api  {
     })
   }
 
-  getInitialUserInfo() {
+  getUserInfo() {
     return this._fetch('/users/me', {
       method: 'GET'
     });
@@ -30,6 +30,19 @@ class Api  {
       method: 'GET'
     });
   }
+
+  changeLikeCardStatus(cardID, like) {
+    return this._fetch('/cards/likes/' + cardID, {
+      method: like ? 'PUT' : 'DELETE'
+    });
+  }
+
+  deleteLike(cardID) {
+    return this._fetch('/cards/likes/' + cardID, {
+      method: 'DELETE'
+    });
+  }
+
 }
 
 export const api = new Api({
