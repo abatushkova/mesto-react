@@ -34,7 +34,7 @@ function App() {
   const handleCardClick = (card) => {
     setSelectedCard(card);
   };
-  const handleDeleteBtnClick = () => {
+  const handleCardDelete = () => {
     setIsConfirmPopupOpen(true);
   };
   const closeAllPopups = () => {
@@ -54,7 +54,7 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddCard={handleAddCardClick}
           onCardClick={handleCardClick}
-          onDeleteBtnClick={handleDeleteBtnClick}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
 
