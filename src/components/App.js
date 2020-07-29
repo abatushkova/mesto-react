@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import EditProfilePopup from './EditProfilePopup';
 import PopupWithForm from './PopupWithForm';
 import ButtonSubmit from './ButtonSubmit';
 import ImagePopup from './ImagePopup';
@@ -45,6 +46,17 @@ function App() {
     setIsConfirmPopupOpen(false);
   }
 
+  const handleUpdateUser = (user) => {
+    api.setUserInfo(user)
+    .then(user => {
+      setCurrentUser(user);
+      closeAllPopups();
+    })
+    .catch(err => console.error(err));
+  }
+
+  if (!currentUser) return null;
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
@@ -73,31 +85,11 @@ function App() {
           <ButtonSubmit>Сохранить</ButtonSubmit>
         </PopupWithForm>
 
-        <PopupWithForm
-          name="profile"
-          title="Редактировать профиль"
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-        >
-          <label className="popup__label" htmlFor="name-input">
-            <input type="text" name="name" id="name-input"
-              className="popup__input"
-              placeholder="Имя" required
-              minLength="2" maxLength="40"
-              pattern="[a-zA-Zа-яА-ЯёЁ\s\-]+"
-            />
-            <span className="popup__error" id="name-input-error"></span>
-          </label>
-          <label className="popup__label" htmlFor="info-input">
-            <input type="text" name="about" id="info-input"
-              className="popup__input"
-              placeholder="О себе" required
-              minLength="2" maxLength="200"
-            />
-            <span className="popup__error" id="info-input-error"></span>
-          </label>
-          <ButtonSubmit>Сохранить</ButtonSubmit>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
 
         <PopupWithForm
           name="card"

@@ -43,6 +43,16 @@ class Api  {
     });
   }
 
+  setUserInfo(user) {
+    return this._fetch('/users/me', {
+      method: 'PATCH',
+      body: {
+        name: user.name,
+        about: user.about
+      }
+    });
+  }
+
 }
 
 export const api = new Api({
