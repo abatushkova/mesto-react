@@ -7,7 +7,7 @@ class EditAvatarPopup extends React.Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.avatarInput = React.createRef();
+    this.inputAvatar = React.createRef();
 
     this.state = {
       isLoading: false
@@ -20,9 +20,9 @@ class EditAvatarPopup extends React.Component {
     this.setState({ isLoading: true });
 
     this.props.onUpdateAvatar({
-      avatar: this.avatarInput.current.value
+      avatar: this.inputAvatar.current.value
     })
-    .then(() => this.avatarInput.current.value = '')
+    // .then((user) => this.inputAvatar.currentvalue = '')
     .catch(err => console.error(err))
     .finally(() => this.setState({ isLoading: false }));
   };
@@ -40,7 +40,7 @@ class EditAvatarPopup extends React.Component {
           <input type="url" name="avatar" id="av-input"
             className="popup__input"
             placeholder="Ссылка" required
-            ref={this.avatarInput}
+            ref={this.inputAvatar}
           />
           <span className="popup__error" id="av-input-error"></span>
         </label>
