@@ -6,8 +6,6 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddCardPopup from './AddCardPopup';
 import ConfirmPopup from './ConfirmPopup';
-// import PopupWithForm from './PopupWithForm';
-// import ButtonSubmit from './ButtonSubmit';
 import ImagePopup from './ImagePopup';
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -72,6 +70,7 @@ function App() {
   const handleUpdateAvatar = ({ avatar }) => {
     return api.setUserAvatar({ avatar })
     .then(user => {
+      console.log(user);
       setCurrentUser(user);
       closeAllPopups();
     });
