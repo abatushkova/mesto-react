@@ -25,9 +25,19 @@ class Api  {
     });
   }
 
-  getInitialCards() {
+  getCardList() {
     return this._fetch('/cards', {
       method: 'GET'
+    });
+  }
+
+  postCard({ name, link }) {
+    return this._fetch('/cards', {
+      method: 'POST',
+      body: {
+        name,
+        link
+      }
     });
   }
 
@@ -43,25 +53,24 @@ class Api  {
     });
   }
 
-  setUserInfo(user) {
+  setUserInfo({ name, about }) {
     return this._fetch('/users/me', {
       method: 'PATCH',
       body: {
-        name: user.name,
-        about: user.about
+        name,
+        about
       }
     });
   }
 
-  setUserAvatar(user) {
+  setUserAvatar({ avatar }) {
     return this._fetch('/users/me/avatar', {
       method: 'PATCH',
       body: {
-        avatar: user.avatar
+        avatar
       }
     });
   }
-
 }
 
 export const api = new Api({

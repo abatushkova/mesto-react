@@ -4,6 +4,7 @@ import Main from './Main';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddCardPopup from './AddCardPopup';
 import PopupWithForm from './PopupWithForm';
 import ButtonSubmit from './ButtonSubmit';
 import ImagePopup from './ImagePopup';
@@ -11,16 +12,23 @@ import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     api.getUserInfo()
     .then(user => setCurrentUser(user))
+    .catch(err => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    api.getCardList()
+    .then((cards) => setCards(cards))
     .catch(err => console.error(err));
   }, []);
 
@@ -36,9 +44,9 @@ function App() {
   const handleCardClick = (card) => {
     setSelectedCard(card);
   };
-  const handleCardDelete = () => {
-    setIsConfirmPopupOpen(true);
-  };
+  // const handleCardDelete = () => {
+  //   setIsConfirmPopupOpen(true);
+  // };
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -47,8 +55,8 @@ function App() {
     setIsConfirmPopupOpen(false);
   }
 
-  const handleUpdateUser = (user) => {
-    api.setUserInfo(user)
+  const handleUpdateUser = ({ name, about }) => {
+    api.setUserInfo({ name, about })
     .then(user => {
       setCurrentUser(user);
       closeAllPopups();
@@ -56,10 +64,45 @@ function App() {
     .catch(err => console.error(err));
   }
 
-  const handleUpdateAvatar = (user) => {
-    api.setUserAvatar(user)
+  const handleUpdateAvatar = ({ avatar }) => {
+    api.setUserAvatar({ avatar })
     .then(user => {
       setCurrentUser(user);
+      closeAllPopups();
+    })
+    .catch(err => console.error(err));
+  }
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    
+    api.changeCardLikeStatus(card._id, !isLiked)
+    .then((newCard) => {
+      const newCards = cards.map((c) => (
+        c._id === card._id ? newCard : c
+      ));
+
+      setCards(newCards);
+    })
+    .catch(err => console.error(err));
+  }
+
+  function handleCardDelete(cardID) {
+    api.deleteCard(cardID)
+    .then((newCard) => {
+      const newCards = cards.filter((c) => (
+        c._id === cardID ? null : newCard
+      ));
+
+      setCards(newCards);
+    })
+    .catch(err => console.error(err));
+  }
+
+  function handleAddCardSubmit({ name, link }) {
+    api.postCard({ name, link })
+    .then((newCard) => {
+      setCards([newCard, ...cards]);
       closeAllPopups();
     })
     .catch(err => console.error(err));
@@ -76,6 +119,9 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddCard={handleAddCardClick}
           onCardClick={handleCardClick}
+          // onCardDelete={handleCardDelete}
+          cards={cards}
+          onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
         />
         <Footer />
@@ -92,29 +138,11 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
 
-        <PopupWithForm
-          name="card"
-          title="Новое место"
+        <AddCardPopup
           isOpen={isAddCardPopupOpen}
           onClose={closeAllPopups}
-        >
-          <label className="popup__label" htmlFor="title-input">
-            <input type="text" name="title" id="title-input"
-              className="popup__input"
-              placeholder="Название" required minLength="1"
-              maxLength="30"
-            />
-            <span className="popup__error" id="title-input-error"></span>
-          </label>
-          <label className="popup__label" htmlFor="src-input">
-            <input type="url" name="src" id="src-input"
-              className="popup__input"
-              placeholder="Ссылка" required
-            />
-            <span className="popup__error" id="src-input-error"></span>
-          </label>
-          <ButtonSubmit>Создать</ButtonSubmit>
-        </PopupWithForm>
+          onAddCardSubmit={handleAddCardSubmit}
+        />
 
         <PopupWithForm
           name="confirm"
