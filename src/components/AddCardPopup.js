@@ -5,6 +5,7 @@ import ButtonSubmit from './ButtonSubmit';
 function AddCardPopup(props) {
   const [title, setTitle] = useState('');
   const [src, setSrc] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTitleChange = (evt) => {
     setTitle(evt.target.value);
@@ -17,10 +18,18 @@ function AddCardPopup(props) {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
+    setIsLoading(true);
+
     props.onAddCardSubmit({
       name: title,
       link: src
-    });
+    })
+    .then(() => {
+      setTitle('');
+      setSrc('');
+    })
+    .catch(err => console.error(err))
+    .finally(() => setIsLoading(false));
   };
 
   return (
@@ -50,7 +59,9 @@ function AddCardPopup(props) {
         />
         <span className="popup__error" id="src-input-error"></span>
       </label>
-      <ButtonSubmit>Создать</ButtonSubmit>
+      <ButtonSubmit>
+        {isLoading ? 'Загрузка...' : 'Создать'}
+      </ButtonSubmit>
     </PopupWithForm>
   );
 }
