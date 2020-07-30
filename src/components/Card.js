@@ -18,7 +18,7 @@ function Card(props) {
     props.onCardLike(card);
   }
   const handleDeleteClick = () => {
-    props.onCardDelete(card);
+    props.onCardDelete(card._id);
   }
 
   const buttonDelete = (card.owner._id === currentUser._id)
