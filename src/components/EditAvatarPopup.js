@@ -8,14 +8,23 @@ class EditAvatarPopup extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.avatarInput = React.createRef();
+
+    this.state = {
+      isLoading: false
+    };
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
 
+    this.setState({ isLoading: true });
+
     this.props.onUpdateAvatar({
       avatar: this.avatarInput.current.value
     })
+    .then(() => this.avatarInput.current.value = '')
+    .catch(err => console.error(err))
+    .finally(() => this.setState({ isLoading: false }));
   };
 
   render() {
@@ -35,7 +44,9 @@ class EditAvatarPopup extends React.Component {
           />
           <span className="popup__error" id="av-input-error"></span>
         </label>
-        <ButtonSubmit>Сохранить</ButtonSubmit>
+        <ButtonSubmit>
+          {this.state.isLoading ? 'Загрузка...' : 'Сохранить'}
+        </ButtonSubmit>
       </PopupWithForm>
     );
   }

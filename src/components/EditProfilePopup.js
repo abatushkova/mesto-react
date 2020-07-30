@@ -7,6 +7,7 @@ function EditProfilePopup(props) {
   const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setName(currentUser.name);
@@ -17,17 +18,21 @@ function EditProfilePopup(props) {
     setName(evt.target.value);
   };
 
-  const handleDescriptionChange =(evt) => {
+  const handleDescriptionChange = (evt) => {
     setDescription(evt.target.value);
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
+    setIsLoading(true);
+
     props.onUpdateUser({
       name,
       about: description
-    });
+    })
+    .catch(err => console.error(err))
+    .finally(() => setIsLoading(false));
   };
 
   return (
@@ -59,7 +64,9 @@ function EditProfilePopup(props) {
         />
         <span className="popup__error" id="info-input-error"></span>
       </label>
-      <ButtonSubmit>Сохранить</ButtonSubmit>
+      <ButtonSubmit>
+        {isLoading ? 'Загрузка...' : 'Сохранить'}
+      </ButtonSubmit>
     </PopupWithForm>
   );
 }

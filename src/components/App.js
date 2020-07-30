@@ -56,21 +56,19 @@ function App() {
   }
 
   const handleUpdateUser = ({ name, about }) => {
-    api.setUserInfo({ name, about })
+    return api.setUserInfo({ name, about })
     .then(user => {
       setCurrentUser(user);
       closeAllPopups();
-    })
-    .catch(err => console.error(err));
+    });
   }
 
   const handleUpdateAvatar = ({ avatar }) => {
-    api.setUserAvatar({ avatar })
+    return api.setUserAvatar({ avatar })
     .then(user => {
       setCurrentUser(user);
       closeAllPopups();
-    })
-    .catch(err => console.error(err));
+    });
   }
 
   function handleCardLike(card) {
@@ -100,12 +98,11 @@ function App() {
   }
 
   function handleAddCardSubmit({ name, link }) {
-    api.postCard({ name, link })
+    return api.postCard({ name, link })
     .then((newCard) => {
       setCards([newCard, ...cards]);
       closeAllPopups();
-    })
-    .catch(err => console.error(err));
+    });
   }
 
   if (!currentUser) return null;
