@@ -5,8 +5,9 @@ import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddCardPopup from './AddCardPopup';
-import PopupWithForm from './PopupWithForm';
-import ButtonSubmit from './ButtonSubmit';
+import ConfirmPopup from './ConfirmPopup';
+// import PopupWithForm from './PopupWithForm';
+// import ButtonSubmit from './ButtonSubmit';
 import ImagePopup from './ImagePopup';
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -16,6 +17,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
@@ -43,16 +45,20 @@ function App() {
   };
   const handleCardClick = (card) => {
     setSelectedCard(card);
+    setIsImagePopupOpen(true);
   };
-  // const handleCardDelete = () => {
-  //   setIsConfirmPopupOpen(true);
-  // };
+  const handleConfirmPopup = (card) => {
+    setSelectedCard(card);
+    setIsConfirmPopupOpen(true);
+  };
+
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddCardPopupOpen(false);
-    setSelectedCard(null);
+    setIsImagePopupOpen(false);
     setIsConfirmPopupOpen(false);
+    setSelectedCard(null);
   }
 
   const handleUpdateUser = ({ name, about }) => {
@@ -93,6 +99,7 @@ function App() {
       ));
 
       setCards(newCards);
+      closeAllPopups();
     })
     .catch(err => console.error(err));
   }
@@ -116,10 +123,9 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddCard={handleAddCardClick}
           onCardClick={handleCardClick}
-          // onCardDelete={handleCardDelete}
           cards={cards}
           onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
+          onCardDelete={handleConfirmPopup}
         />
         <Footer />
 
@@ -141,18 +147,16 @@ function App() {
           onAddCardSubmit={handleAddCardSubmit}
         />
 
-        <PopupWithForm
-          name="confirm"
-          title="Вы уверены?"
+        <ConfirmPopup
+          card={selectedCard}
           isOpen={isConfirmPopupOpen}
           onClose={closeAllPopups}
-        >
-          <ButtonSubmit>Да</ButtonSubmit>
-        </PopupWithForm>
+          onCardDeleteConfirm={handleCardDelete}
+        />
 
         <ImagePopup
           card={selectedCard}
-          isOpen={selectedCard}
+          isOpen={isImagePopupOpen}
           onClose={closeAllPopups}
         />
       </div>
