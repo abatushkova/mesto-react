@@ -1,20 +1,28 @@
 import React from 'react';
 import ButtonClose from './ButtonClose';
+import PopupContainer from './PopupContainer';
 
 function PopupWithForm(props) {
-  return (
-    <div className={
-      `popup popup_type_${props.name} 
-      ${(props.isOpen) ? "popup_opened" : ""}`
-    }>
-      <div className="popup__container">
-        <h2 className="popup__title">{props.title}</h2>
-        <form className="popup__form" name={props.name} noValidate>
-          {props.children}
-        </form>
-        <ButtonClose closeHandler={props.onClose} />
+  return ((props.isOpen)
+    ? <div className={`popup popup_type_${props.name} popup_opened`}>
+        <PopupContainer
+          className="popup__container"
+          closeHandler={props.onClose}
+        >
+          <h2 className="popup__title">{props.title}</h2>
+          <form
+            className="popup__form"
+            name={props.name}
+            id={`${props.name}-form`}
+            noValidate
+            onSubmit={props.onSubmit}
+          >
+            {props.children}
+          </form>
+          <ButtonClose closeHandler={props.onClose} />
+        </PopupContainer>
       </div>
-    </div>
+    : <div className={`popup popup_type_${props.name}`}></div>
   );
 }
 

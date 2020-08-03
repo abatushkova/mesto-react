@@ -16,18 +16,59 @@ class Api  {
       }
 
       return Promise.reject(`Ошибка: ${response.status}`);
-    })
+    });
   }
 
-  getInitialUserInfo() {
+  getUserInfo() {
     return this._fetch('/users/me', {
       method: 'GET'
     });
   }
 
-  getInitialCards() {
+  getCardList() {
     return this._fetch('/cards', {
       method: 'GET'
+    });
+  }
+
+  postCard({ name, link }) {
+    return this._fetch('/cards', {
+      method: 'POST',
+      body: {
+        name,
+        link
+      }
+    });
+  }
+
+  changeCardLikeStatus(cardID, like) {
+    return this._fetch('/cards/likes/' + cardID, {
+      method: like ? 'PUT' : 'DELETE'
+    });
+  }
+
+  deleteCard(cardID) {
+    return this._fetch('/cards/' + cardID, {
+      method: 'DELETE'
+    });
+  }
+
+  setUserInfo({ name, about }) {
+    return this._fetch('/users/me', {
+      method: 'PATCH',
+      body: {
+        name,
+        about
+      }
+    });
+  }
+
+  setUserAvatar({ avatar }) {
+    return this._fetch('/users/me/avatar', {
+      method: 'PATCH',
+      body: {
+        avatar
+      }
     });
   }
 }
