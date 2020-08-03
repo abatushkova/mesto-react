@@ -57,7 +57,7 @@ function App() {
     setIsImagePopupOpen(false);
     setIsConfirmPopupOpen(false);
     setSelectedCard(null);
-  }
+  };
 
   const handleUpdateUser = ({ name, about }) => {
     return api.setUserInfo({ name, about })
@@ -65,18 +65,17 @@ function App() {
       setCurrentUser(user);
       closeAllPopups();
     });
-  }
+  };
 
   const handleUpdateAvatar = ({ avatar }) => {
     return api.setUserAvatar({ avatar })
     .then(user => {
-      console.log(user);
       setCurrentUser(user);
       closeAllPopups();
     });
-  }
+  };
 
-  function handleCardLike(card) {
+  const handleCardLike = (card) => {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     
     api.changeCardLikeStatus(card._id, !isLiked)
@@ -88,9 +87,9 @@ function App() {
       setCards(newCards);
     })
     .catch(err => console.error(err));
-  }
+  };
 
-  function handleCardDelete(cardID) {
+  const handleCardDelete = (cardID) => {
     api.deleteCard(cardID)
     .then((newCard) => {
       const newCards = cards.filter((c) => (
@@ -101,15 +100,15 @@ function App() {
       closeAllPopups();
     })
     .catch(err => console.error(err));
-  }
+  };
 
-  function handleAddCardSubmit({ name, link }) {
+  const handleAddCardSubmit = ({ name, link }) => {
     return api.postCard({ name, link })
     .then((newCard) => {
       setCards([newCard, ...cards]);
       closeAllPopups();
     });
-  }
+  };
 
   if (!currentUser) return null;
 

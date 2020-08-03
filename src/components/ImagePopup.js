@@ -11,7 +11,8 @@ function ImagePopup(props) {
           className="popup__img-wrapper"
           closeHandler={props.onClose}
         >
-          <img src={card.link}
+          <img
+            src={card.link}
             alt={card.name}
             className="popup__img"
           />

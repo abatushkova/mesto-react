@@ -20,13 +20,13 @@ function PopupContainer(props) {
     ) {
       props.closeHandler();
     }
-  }
+  };
 
   const handleEsc = (evt) => {
     if (evt.key && evt.key === 'Escape') {
       props.closeHandler();
-    };
-  }
+    }
+  };
 
   return (
     <div className={props.className} ref={popupContainer}>

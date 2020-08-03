@@ -16,10 +16,10 @@ function Card(props) {
   };
   const handleLikeClick = () => {
     props.onCardLike(card);
-  }
+  };
   const handleDeleteClick = () => {
     props.onCardDelete(card);
-  }
+  };
 
   const buttonDelete = (card.owner._id === currentUser._id)
   && <button type="button" 
@@ -29,7 +29,8 @@ function Card(props) {
   return (
     <div className="elements__item">
       {buttonDelete}
-      <img src={card.link}
+      <img
+        src={card.link}
         alt={card.name}
         className="elements__img"
         onClick={handleClick}
@@ -37,7 +38,8 @@ function Card(props) {
       <div className="elements__info">
         <h2 className="elements__title">{card.name}</h2>
         <div className="elements__like">
-          <button type="button"
+          <button
+            type="button"
             className={cardLikeBtnClassName}
             title="Мне нравится"
             onClick={handleLikeClick}>

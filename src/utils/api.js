@@ -16,7 +16,7 @@ class Api  {
       }
 
       return Promise.reject(`Ошибка: ${response.status}`);
-    })
+    });
   }
 
   getUserInfo() {
