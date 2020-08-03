@@ -9,7 +9,7 @@ function ConfirmPopup(props) {
     evt.preventDefault();
 
     props.onCardDeleteConfirm(card._id);
-  }
+  };
 
   return (
     <PopupWithForm
@@ -18,7 +18,7 @@ function ConfirmPopup(props) {
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
-      >
+    >
       <ButtonSubmit>Да</ButtonSubmit>
     </PopupWithForm>
   );

@@ -1,7 +1,7 @@
 .popup__error {
-  position: absolute;
-  bottom: -1.125rem;
-  left: 0;
+  display: block;
+  min-height: 1rem;
+  margin-top: .25rem;
   color: #ff0000;
   font: 12px/15px 'Inter', Arial, sans-serif;
   opacity: 0;
