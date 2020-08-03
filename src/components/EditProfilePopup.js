@@ -30,9 +30,6 @@ function EditProfilePopup(props) {
     const input = evt.target;
     setName(input.value);
 
-    console.log(input);
-    console.log(input.name);
-
     if (!input.validity.valid) {
       setNameError({
         inputClass: 'popup__input_type_error',
@@ -70,18 +67,6 @@ function EditProfilePopup(props) {
       setIsFormValid(true);
     }
   };
-
-  // const showInputError = (name, input) => {
-  //   input.inputClass = 'popup__input_type_error';
-  //   input.errorClass = 'popup__error_visible';
-  //   input.errorMsg = name.validationMessage;
-  // }
-
-  // const hideInputError = (input) => {
-  //   input.inputClass = '';
-  //   input.errorClass = '';
-  //   input.errorMsg = '';
-  // }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
