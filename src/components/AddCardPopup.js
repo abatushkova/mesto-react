@@ -141,7 +141,6 @@ class AddCardPopup extends React.Component {
       name: this.title.current.value,
       link: this.src.current.value
     })
-    .catch(err => console.error(err))
     .finally(() => {
       this.setState({
         isFormValid: false,
