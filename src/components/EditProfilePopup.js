@@ -76,7 +76,6 @@ function EditProfilePopup(props) {
       name,
       about: description
     })
-    .catch(err => console.error(err))
     .finally(() => {
       setIsFormValid(true);
       setIsLoading(false);

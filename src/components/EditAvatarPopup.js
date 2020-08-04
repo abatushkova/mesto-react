@@ -92,7 +92,6 @@ class EditAvatarPopup extends React.Component {
     this.props.onUpdateAvatar({
       avatar: this.avatar.current.value
     })
-    .catch(err => console.error(err))
     .finally(() => {
       this.setState({
         isFormValid: false,

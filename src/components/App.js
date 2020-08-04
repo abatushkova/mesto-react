@@ -64,7 +64,8 @@ function App() {
     .then(user => {
       setCurrentUser(user);
       closeAllPopups();
-    });
+    })
+    .catch(err => console.error(err));
   };
 
   const handleUpdateAvatar = ({ avatar }) => {
@@ -72,7 +73,8 @@ function App() {
     .then(user => {
       setCurrentUser(user);
       closeAllPopups();
-    });
+    })
+    .catch(err => console.error(err));
   };
 
   const handleCardLike = (card) => {
@@ -107,7 +109,8 @@ function App() {
     .then((newCard) => {
       setCards([newCard, ...cards]);
       closeAllPopups();
-    });
+    })
+    .catch(err => console.error(err));
   };
 
   if (!currentUser) return null;
