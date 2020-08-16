@@ -5,7 +5,7 @@ An educational application for yandex.praktikum, built with Create React App, Ja
 Webpack generated bundle.
 
 ## Project status
-This app is currently in development. Users can click on edit-avatar, edit-profile, add-card, delete-card buttons to open modal windows, can click on image to open it fullscreen. Functionality to change avatar or profile information, to add, delete or like cards is in progress.
+This app is complete. Users can change avatar or profile information, add, delete and like cards.
 
 ## Credits
 Alena Batushkova - junior web developer
